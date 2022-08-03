@@ -1,46 +1,23 @@
-import React, {
-  memo,
-  useState,
-  useEffect
-} from "react";
+import React from "react";
+import ReactSlider from "react-slider";
 
-const RangeSlider = memo(
-  ({ classes, label, onChange, value, ...sliderProps }) => {
-    const [sliderVal, setSliderVal] = useState(0);
-    const [mouseState, setMouseState] = useState(null);
-
-    useEffect(() => {
-      setSliderVal(value);
-    }, [value]);
-
-    const changeCallback = e => {
-      setSliderVal(e.target.value);
-    };
-
-    useEffect(() => {
-      if (mouseState === "up") {
-        onChange(sliderVal);
-      }
-    }, [mouseState]);
-    console.log("RENDER");
-    return (
-      <div className="range-slider">
-        <p>{label}</p>
-        <h3>value: {sliderVal}</h3>
-        <input
-          type="range"
-          value={sliderVal}
-          {...sliderProps}
-          className={`slider ${classes}`}
-          id="myRange"
-          onChange={changeCallback}
-          onMouseDown={() => setMouseState("down")}
-          onMouseUp={() => setMouseState("up")}
-        />
-      </div>
-    );
-  }
-);
-
-export default RangeSlider;
-
+export default function Slider({ value, handleChange, step, min, max }) {
+	return (
+		<>
+			<div className="w-48">
+				<label hidden>Slider</label>
+				<ReactSlider
+					step={step}
+					min={min}
+					max={max}
+					className="w-full h-3 pr-2 my-4 bg-gray-200 rounded-md cursor-grab"
+					thumbClassName="absolute w-5 h-5 cursor-grab bg-indigo-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 -top-1"
+					value={+value}
+					onChange={(value) => {
+						handleChange(value)
+					}}
+				/>
+			</div>
+		</>
+	)
+}
